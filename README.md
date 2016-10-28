@@ -1,1 +1,1 @@
-# A lottery program. Allows the user to 
+# A lottery program.
