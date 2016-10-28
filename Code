@@ -1,0 +1,108 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+public class Lottery
+{
+    public static int bonus;
+    public static int bonusLottery; 
+    public static void main(String[] args) {
+      Scanner input = new Scanner(System.in);
+      int bonus;
+      int validator;
+      boolean valid = true;
+      ArrayList<Integer> userNumbers = new ArrayList<>();
+      
+      //Gettting user to input their numbers + validation
+      
+      do {
+       for (int i = 0; i < 6; i++) {
+          System.out.println("Please enter number " + (i+1));
+          validator = input.nextInt();
+          if (validator > 49){
+              valid = false;
+              System.out.println("You have entered an invalid number, please re-enter all your numbers");
+         }
+          else {
+              valid = true;
+              userNumbers.add(validator);
+            }
+        }
+      } while (valid == false);
+        System.out.println("Choose a bonus ball");
+        bonus = input.nextInt();
+        
+        //Showing the user their numbers for easy comparison with the winning ones
+        
+        System.out.println("Your numbers are");
+      for (int i = 0; i < 6; i++){
+        System.out.print(userNumbers.get(i) + " ");
+      }
+      System.out.print(" and your bonus ball is " + bonus + "\n");
+      
+      //Creating and outputting the random numbers
+      
+      int[] lottery = new int[6];
+      int randomNum;
+      for (int i = 0; i < 6; i++) {
+          randomNum = (int) (Math.random() * 49);
+          for (int x = 0; x < i; x++) {
+            if (lottery[x] == randomNum){
+                randomNum = (int) (Math.random() * 49);
+            }
+        }
+        lottery[i] = randomNum;
+      }
+        System.out.println("The winning numbers are");
+       for (int i = 0; i < 6; i++){
+        System.out.print(lottery[i] + " ");
+      }
+      int bonusLottery = (int) (Math.random() * 49);
+      System.out.println("The bonus ball is " + bonusLottery);
+      
+      //Checking to see which numbers match
+     
+      int matched = 0;
+      for (int x = 0; x < 6; x++) {
+         if (userNumbers.contains(lottery[x])){
+            matched++;
+            }
+        }
+      System.out.println("\n" + "You matched " + matched + " ball(s)");
+      if (bonus == bonusLottery){
+          System.out.println("Your bonus ball matched!");
+      }
+      else {
+          System.out.println("Your bonus ball did not match.");
+      }
+      
+      //Calling the rewards method
+      
+      System.out.println("You have won £" + calculateWinnings(matched));
+   }
+      //This method calculates the winnings and returns the value
+   public static int calculateWinnings(int matched){
+      int winnings = 0;
+       if ((matched == 5)&& bonus == bonusLottery){
+          winnings = 100000;
+          }
+      else
+          {
+      switch (matched) {
+          case 3:
+            winnings = 10;
+            break;
+          case 4: winnings = 100;
+            break;
+          case 5: 
+            winnings = 10000;
+            break;
+          case 6:
+            winnings = 1000000;
+            break;
+          default: winnings = 0;
+            break;
+        }
+      }
+      return winnings;
+    }    
+}
+
